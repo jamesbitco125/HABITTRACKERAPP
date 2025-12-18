@@ -266,11 +266,27 @@ def delete_habit(habit_id):
 
 # Start Screen
 if st.session_state.current_screen == 'start':
-    st.markdown('<h1 style="text-align: center; font-size: clamp(2.5rem, 6vw, 3.5rem); letter-spacing: -0.5px; font-weight: 800; margin-bottom: 15px;">HABIT TRACKER</h1>', unsafe_allow_html=True)
-    st.markdown('<p style="text-align: center; font-size: 1.1rem; font-weight: 300; opacity: 0.9; margin-bottom: 40px;">Build habits that change your life</p>', unsafe_allow_html=True)
+    st.markdown(
+        '<h1 style="text-align: center; font-size: clamp(2.5rem, 6vw, 3.5rem); '
+        'letter-spacing: -0.5px; font-weight: 800; margin-bottom: 15px;">'
+        'HABIT TRACKER</h1>',
+        unsafe_allow_html=True
+    )
 
-    if st.button('START'):
-        navigate_to('tracker')
+    st.markdown(
+        '<p style="text-align: center; font-size: 1.1rem; font-weight: 300; '
+        'opacity: 0.9; margin-bottom: 40px;">'
+        'Build habits that change your life</p>',
+        unsafe_allow_html=True
+    )
+
+    # Center the START button using columns
+    col1, col2, col3 = st.columns([1, 2, 1])
+
+    with col2:
+        if st.button("START", use_container_width=True):
+            navigate_to("tracker")
+
 
 
 # Tracker Screen
