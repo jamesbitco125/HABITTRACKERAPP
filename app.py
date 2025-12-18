@@ -268,8 +268,10 @@ def delete_habit(habit_id):
 if st.session_state.current_screen == 'start':
     st.markdown('<h1 style="text-align: center; font-size: clamp(2.5rem, 6vw, 3.5rem); letter-spacing: -0.5px; font-weight: 800; margin-bottom: 15px;">HABIT TRACKER</h1>', unsafe_allow_html=True)
     st.markdown('<p style="text-align: center; font-size: 1.1rem; font-weight: 300; opacity: 0.9; margin-bottom: 40px;">Build habits that change your life</p>', unsafe_allow_html=True)
+
     if st.button('START'):
         navigate_to('tracker')
+
 
 # Tracker Screen
 elif st.session_state.current_screen == 'tracker':
