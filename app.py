@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Custom CSS for styling (Minimalist and Right-Sized Buttons)
+
 st.markdown("""
 <style>
     body {
@@ -139,13 +139,7 @@ st.markdown("""
         margin-bottom: 40px;
         padding-top: 10px;
     }
-    .profile-pic {
-        width: 40px;
-        height: 40px;
-        background: white;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.4);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+   
     }
     .add-habit-pill {
         background: white;
@@ -265,7 +259,7 @@ elif st.session_state.current_screen == 'tracker':
         if st.button('←'):
             navigate_to('start')
     with col2:
-        st.markdown('<span class="nav-title">My Habits</span>', unsafe_allow_html=True)
+        st.markdown('<span class="nav-title">MY HABITS</span>', unsafe_allow_html=True)
     with col3:
         st.markdown('<div class="profile-pic"></div>', unsafe_allow_html=True)
 
