@@ -20,6 +20,8 @@ st.markdown("""
         padding: 8px 16px;  /* Smaller padding for right size */
         min-width: 80px;  /* Consistent min width */
         height: 36px;  /* Fixed height for uniformity */
+        background: black;
+        color: white;
     }
     
     /* Primary Buttons (START, Add New Habit, Check-in, Save) */
@@ -28,7 +30,7 @@ st.markdown("""
     .stButton>button[data-testid*="checkin"], 
     .stButton>button[data-testid*="Start Habit"], 
     .stButton>button[data-testid*="Update Habit"] {
-        background: #4f46e5;  /* Solid color for minimalism */
+        background: black;
         color: white;
     }
     .stButton>button[data-testid*="START"]:hover, 
@@ -36,9 +38,9 @@ st.markdown("""
     .stButton>button[data-testid*="checkin"]:hover, 
     .stButton>button[data-testid*="Start Habit"]:hover, 
     .stButton>button[data-testid*="Update Habit"]:hover {
-        background: #4338ca;
+        background: #333;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     
     /* Make START button bigger and centered */
@@ -53,36 +55,36 @@ st.markdown("""
     /* Secondary Buttons (Back, Cancel) */
     .stButton>button[data-testid*="←"], 
     .stButton>button[data-testid*="Cancel"] {
-        background: #f3f4f6;
-        color: #374151;
+        background: black;
+        color: white;
     }
     .stButton>button[data-testid*="←"]:hover, 
     .stButton>button[data-testid*="Cancel"]:hover {
-        background: #e5e7eb;
+        background: #333;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     
     /* Edit Button */
     .stButton>button[data-testid*="edit"] {
-        background: #3b82f6;
+        background: black;
         color: white;
     }
     .stButton>button[data-testid*="edit"]:hover {
-        background: #2563eb;
+        background: #333;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     
     /* Delete Button */
     .stButton>button[data-testid*="delete"] {
-        background: #ef4444;
+        background: black;
         color: white;
     }
     .stButton>button[data-testid*="delete"]:hover {
-        background: #dc2626;
+        background: #333;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     
     /* Disabled Buttons */
@@ -360,4 +362,4 @@ if st.session_state.show_modal:
                 if name and limit > 0:
                     save_habit(name, limit)
                 else:
-                    st.error
+                    st.error("Please enter a valid habit name and goal.")
