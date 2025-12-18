@@ -182,6 +182,12 @@ st.markdown("""
         font-size: 1.1rem;
         margin: 10px 0;
     }
+    .nav-title {
+        text-align: center;
+        width: 100%;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -259,7 +265,7 @@ elif st.session_state.current_screen == 'tracker':
         if st.button('←'):
             navigate_to('start')
     with col2:
-        st.markdown('<span style="font-size: 1.2rem; font-weight: 600;">My Habits</span>', unsafe_allow_html=True)
+        st.markdown('<span class="nav-title">My Habits</span>', unsafe_allow_html=True)
     with col3:
         st.markdown('<div class="profile-pic"></div>', unsafe_allow_html=True)
 
