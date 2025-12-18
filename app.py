@@ -131,27 +131,43 @@ st.markdown("""
         box-shadow: 0 6px 20px rgba(72, 187, 120, 0.3), 0 0 20px rgba(72, 187, 120, 0.1);
         animation: celebrate 0.5s ease-out;
     }
-    .habit-card.done::before {
-        content: "🏆 COMPLETED!";
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: #48bb78;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: bold;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
     .habit-card.done .progress-bar-fill {
         background: linear-gradient(90deg, #48bb78 0%, #38a169 100%);
         box-shadow: inset 0 0 5px rgba(255,255,255,0.5);
+    }
+    .green-box {
+        background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+        border: 4px solid #48bb78;
+        border-radius: 16px;
+        padding: 30px;  /* Larger padding to make the box bigger and fit the habit */
+        margin-bottom: 25px;
+        box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4), 0 0 30px rgba(72, 187, 120, 0.2);
+        position: relative;
+        animation: greenGlow 0.6s ease-out;
+    }
+    .green-box::before {
+        content: "🏆 ACHIEVEMENT UNLOCKED!";
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #48bb78;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        z-index: 1;
     }
     @keyframes celebrate {
         0% { transform: scale(1); }
         50% { transform: scale(1.05); }
         100% { transform: scale(1); }
+    }
+    @keyframes greenGlow {
+        0% { opacity: 0; transform: scale(0.9); }
+        100% { opacity: 1; transform: scale(1); }
     }
     .modal-content {
         background: white;
@@ -350,6 +366,8 @@ elif st.session_state.current_screen == 'tracker':
             is_done = habit['completed']
             progress_percent = (habit['current'] / habit['limit']) * 100
             with st.container():
+                if is_done:
+                    st.markdown('<div class="green-box">', unsafe_allow_html=True)
                 st.markdown(f'<div class="habit-card {"done" if is_done else ""}">', unsafe_allow_html=True)
                 # Habit Header
                 col1, col2 = st.columns([3, 1])
@@ -374,6 +392,8 @@ elif st.session_state.current_screen == 'tracker':
                 if st.button('+ Check-in' if not is_done else 'Goal Reached', disabled=is_done, key=f'checkin_{habit["id"]}'):
                     check_in(habit['id'])
                 st.markdown('</div>', unsafe_allow_html=True)
+                if is_done:
+                    st.markdown('</div>', unsafe_allow_html=True)
 
 # Modal for Add/Edit
 if st.session_state.show_modal:
