@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Custom CSS for styling
+# Custom CSS for styling (Minimalist and Right-Sized Buttons)
 st.markdown("""
 <style>
     body {
@@ -9,17 +9,18 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
     }
     
-    /* Global Button Styles */
+    /* Global Button Styles - Minimalist */
     .stButton>button {
         border: none;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 1rem;
+        border-radius: 8px;  /* Less rounded for minimalism */
+        font-weight: 500;
+        font-size: 0.9rem;
         cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        padding: 12px 24px;
-        min-width: 120px;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);  /* Subtle shadow */
+        padding: 8px 16px;  /* Smaller padding for right size */
+        min-width: 80px;  /* Consistent min width */
+        height: 36px;  /* Fixed height for uniformity */
     }
     
     /* Primary Buttons (START, Add New Habit, Check-in, Save) */
@@ -28,56 +29,52 @@ st.markdown("""
     .stButton>button[data-testid*="checkin"], 
     .stButton>button[data-testid*="Start Habit"], 
     .stButton>button[data-testid*="Update Habit"] {
-        background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        background: #4f46e5;  /* Solid color for minimalism */
         color: white;
-        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
     }
     .stButton>button[data-testid*="START"]:hover, 
     .stButton>button[data-testid*="add_habit"]:hover, 
     .stButton>button[data-testid*="checkin"]:hover, 
     .stButton>button[data-testid*="Start Habit"]:hover, 
     .stButton>button[data-testid*="Update Habit"]:hover {
-        background: linear-gradient(135deg, #4338ca, #6d28d9);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(79, 70, 229, 0.5);
+        background: #4338ca;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
     }
     
     /* Secondary Buttons (Back, Cancel) */
     .stButton>button[data-testid*="←"], 
     .stButton>button[data-testid*="Cancel"] {
-        background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+        background: #f3f4f6;
         color: #374151;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     .stButton>button[data-testid*="←"]:hover, 
     .stButton>button[data-testid*="Cancel"]:hover {
-        background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+        background: #e5e7eb;
         transform: translateY(-1px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
     
     /* Edit Button */
     .stButton>button[data-testid*="edit"] {
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        background: #3b82f6;
         color: white;
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
     }
     .stButton>button[data-testid*="edit"]:hover {
-        background: linear-gradient(135deg, #2563eb, #1e40af);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        background: #2563eb;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
     
     /* Delete Button */
     .stButton>button[data-testid*="delete"] {
-        background: linear-gradient(135deg, #ef4444, #dc2626);
+        background: #ef4444;
         color: white;
-        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
     }
     .stButton>button[data-testid*="delete"]:hover {
-        background: linear-gradient(135deg, #dc2626, #b91c1c);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+        background: #dc2626;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
     }
     
     /* Disabled Buttons */
@@ -92,7 +89,7 @@ st.markdown("""
     .habit-card {
         background: white;
         color: #2d3436;
-        padding: 25px;
+        padding: 20px;  /* Slightly smaller padding */
         border-radius: 12px;
         margin-bottom: 15px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -126,9 +123,9 @@ st.markdown("""
     .modal-content {
         background: white;
         color: #2d3436;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        padding: 25px;  /* Smaller padding */
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         animation: fadeIn 0.3s ease-out;
     }
     @keyframes fadeIn {
@@ -154,12 +151,12 @@ st.markdown("""
         background: white;
         color: #2d3436;
         border: none;
-        padding: 10px 35px;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 0.95rem;
+        padding: 8px 20px;  /* Smaller padding */
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 0.9rem;
         cursor: pointer;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         transition: transform 0.2s ease;
     }
     .add-habit-pill:hover {
@@ -168,15 +165,22 @@ st.markdown("""
     .empty-card {
         background: white;
         color: #2d3436;
-        padding: 50px 30px;
-        border-radius: 20px;
+        padding: 40px 25px;  /* Smaller padding */
+        border-radius: 16px;
         text-align: center;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         margin-bottom: 30px;
     }
     .action-buttons {
         display: flex;
         gap: 8px;
+    }
+    .celebration {
+        text-align: center;
+        color: #48bb78;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin: 10px 0;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -233,6 +237,7 @@ def check_in(habit_id):
         habit['current'] += 1
         if habit['current'] == habit['limit']:
             habit['completed'] = True
+            st.balloons()  # Celebration for completing the habit
     st.rerun()
 
 def delete_habit(habit_id):
@@ -287,6 +292,9 @@ elif st.session_state.current_screen == 'tracker':
                             delete_habit(habit['id'])
                 # Progress Text
                 st.markdown(f'<p>{"<strong>✅ Habit Done!</strong>" if is_done else f"Progress: {habit["current"]} / {habit["limit"]}"}</p>', unsafe_allow_html=True)
+                # Celebration for completed habits
+                if is_done:
+                    st.markdown('<div class="celebration">🎉 Congratulations! Habit Completed! 🎉</div>', unsafe_allow_html=True)
                 # Progress Bar
                 st.progress(progress_percent / 100)
                 # Check-in Button
