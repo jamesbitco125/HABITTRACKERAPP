@@ -103,6 +103,8 @@ st.markdown("""
         border-radius: 12px;
         margin-bottom: 15px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        position: relative;
+        overflow: hidden;
     }
     .habit-header {
         display: flex;
@@ -123,12 +125,33 @@ st.markdown("""
         transition: width 0.3s ease;
     }
     .habit-card.done {
-        background-color: #f0fff4;
-        border: 2px solid #48bb78;
-        opacity: 0.9;
+        background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+        border: 3px solid #48bb78;
+        opacity: 1;
+        box-shadow: 0 6px 20px rgba(72, 187, 120, 0.3), 0 0 20px rgba(72, 187, 120, 0.1);
+        animation: celebrate 0.5s ease-out;
+    }
+    .habit-card.done::before {
+        content: "🏆 COMPLETED!";
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #48bb78;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
     .habit-card.done .progress-bar-fill {
-        background: #48bb78;
+        background: linear-gradient(90deg, #48bb78 0%, #38a169 100%);
+        box-shadow: inset 0 0 5px rgba(255,255,255,0.5);
+    }
+    @keyframes celebrate {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
     }
     .modal-content {
         background: white;
@@ -191,6 +214,12 @@ st.markdown("""
         font-weight: 600;
         font-size: 1.1rem;
         margin: 10px 0;
+        animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
     }
     .nav-title {
         text-align: center;
@@ -338,7 +367,7 @@ elif st.session_state.current_screen == 'tracker':
                 st.markdown(f'<p>{"<strong>✅ Habit Done!</strong>" if is_done else f"Progress: {habit["current"]} / {habit["limit"]}"}</p>', unsafe_allow_html=True)
                 # Celebration for completed habits
                 if is_done:
-                    st.markdown('<div class="celebration">🎉 Congratulations! Habit Completed! 🎉</div>', unsafe_allow_html=True)
+                    st.markdown('<div class="celebration">🎉 Amazing! You\'ve crushed this habit! Keep the momentum going! 🚀</div>', unsafe_allow_html=True)
                 # Progress Bar
                 st.progress(progress_percent / 100)
                 # Check-in Button
