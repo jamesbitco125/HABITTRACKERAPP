@@ -1,5 +1,4 @@
 import streamlit as st
-import json
 
 # Custom CSS for styling
 st.markdown("""
@@ -109,6 +108,10 @@ st.markdown("""
         box-shadow: 0 20px 50px rgba(0,0,0,0.15);
         margin-bottom: 30px;
     }
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -202,27 +205,28 @@ elif st.session_state.current_screen == 'tracker':
         for habit in st.session_state.habits:
             is_done = habit['completed']
             progress_percent = (habit['current'] / habit['limit']) * 100
-            st.markdown(f"""
-            <div class="habit-card {'done' if is_done else ''}">
-                <div class="habit-header">
-                    <h3>{habit['name']}</h3>
-                    <div>
-                        <button onclick="open_modal({habit['id']})">✏️</button>
-                        <button onclick="delete_habit({habit['id']})">×</button>
-                    </div>
-                </div>
-                <p>{"<strong>✅ Habit Done!</strong>" if is_done else f"Progress: {habit['current']} / {habit['limit']}"}</p>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" style="width: {progress_percent}%"></div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-            col1, col2 = st.columns([3, 1])
-            with col1:
+            with st.container():
+                st.markdown(f'<div class="habit-card {"done" if is_done else ""}">', unsafe_allow_html=True)
+                # Habit Header
+                col1, col2 = st.columns([3, 1])
+                with col1:
+                    st.markdown(f'<h3>{habit["name"]}</h3>', unsafe_allow_html=True)
+                with col2:
+                    col_edit, col_delete = st.columns(2)
+                    with col_edit:
+                        if st.button('✏️', key=f'edit_{habit["id"]}'):
+                            open_modal(habit['id'])
+                    with col_delete:
+                        if st.button('×', key=f'delete_{habit["id"]}'):
+                            delete_habit(habit['id'])
+                # Progress Text
+                st.markdown(f'<p>{"<strong>✅ Habit Done!</strong>" if is_done else f"Progress: {habit["current"]} / {habit["limit"]}"}</p>', unsafe_allow_html=True)
+                # Progress Bar
                 st.progress(progress_percent / 100)
-            with col2:
+                # Check-in Button
                 if st.button('+ Check-in' if not is_done else 'Goal Reached', disabled=is_done, key=f'checkin_{habit["id"]}'):
                     check_in(habit['id'])
+                st.markdown('</div>', unsafe_allow_html=True)
 
 # Modal for Add/Edit
 if st.session_state.show_modal:
