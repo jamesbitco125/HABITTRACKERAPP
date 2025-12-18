@@ -139,26 +139,23 @@ st.markdown("""
         background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
         border: 4px solid #48bb78;
         border-radius: 16px;
-        padding: 30px;  /* Larger padding to make the box bigger and fit the habit */
+        padding: 20px;
         margin-bottom: 25px;
         box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4), 0 0 30px rgba(72, 187, 120, 0.2);
         position: relative;
         animation: greenGlow 0.6s ease-out;
+        text-align: center;
     }
-    .green-box::before {
-        content: "🏆 ACHIEVEMENT UNLOCKED!";
-        position: absolute;
-        top: -10px;
-        left: 50%;
-        transform: translateX(-50%);
+    .achievement-header {
         background: #48bb78;
         color: white;
-        padding: 8px 15px;
+        padding: 10px 20px;
         border-radius: 25px;
-        font-size: 0.9rem;
+        font-size: 1rem;
         font-weight: bold;
+        margin-bottom: 20px;
+        display: inline-block;
         box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-        z-index: 1;
     }
     @keyframes celebrate {
         0% { transform: scale(1); }
@@ -367,7 +364,7 @@ elif st.session_state.current_screen == 'tracker':
             progress_percent = (habit['current'] / habit['limit']) * 100
             with st.container():
                 if is_done:
-                    st.markdown('<div class="green-box">', unsafe_allow_html=True)
+                    st.markdown('<div class="green-box"><div class="achievement-header">🏆 ACHIEVEMENT UNLOCKED!</div>', unsafe_allow_html=True)
                 st.markdown(f'<div class="habit-card {"done" if is_done else ""}">', unsafe_allow_html=True)
                 # Habit Header
                 col1, col2 = st.columns([3, 1])
