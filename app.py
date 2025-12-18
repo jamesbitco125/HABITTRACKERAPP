@@ -1,6 +1,5 @@
 import streamlit as st
 
-
 st.markdown("""
 <style>
     body {
@@ -139,13 +138,19 @@ st.markdown("""
         margin-bottom: 40px;
         padding-top: 10px;
     }
-   
+    .profile-pic {
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     .add-habit-pill {
         background: white;
         color: #2d3436;
         border: none;
-        padding: 8px 20px;  /* Smaller padding */
+        padding: 8px 20px; 
         border-radius: 8px;
         font-weight: 500;
         font-size: 0.9rem;
@@ -159,7 +164,7 @@ st.markdown("""
     .empty-card {
         background: white;
         color: #2d3436;
-        padding: 40px 25px;  /* Smaller padding */
+        padding: 40px 25px;  
         border-radius: 16px;
         text-align: center;
         box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -181,6 +186,12 @@ st.markdown("""
         width: 100%;
         font-size: 1.2rem;
         font-weight: 600;
+    }
+    .page-title {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 20px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -253,13 +264,17 @@ if st.session_state.current_screen == 'start':
 
 # Tracker Screen
 elif st.session_state.current_screen == 'tracker':
+    # Centered Page Title
+    st.markdown('<div class="page-title">MY HABITS</div>', unsafe_allow_html=True)
+    
     # Nav Bar
     col1, col2, col3 = st.columns([1, 2, 1])
     with col1:
         if st.button('←'):
             navigate_to('start')
     with col2:
-        st.markdown('<span class="nav-title">MY HABITS</span>', unsafe_allow_html=True)
+        # Removed the nav-title here since it's now at the top
+        pass
     with col3:
         st.markdown('<div class="profile-pic"></div>', unsafe_allow_html=True)
 
