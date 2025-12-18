@@ -135,17 +135,6 @@ st.markdown("""
         background: linear-gradient(90deg, #48bb78 0%, #38a169 100%);
         box-shadow: inset 0 0 5px rgba(255,255,255,0.5);
     }
-    .green-box {
-        background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
-        border: 4px solid #48bb78;
-        border-radius: 16px;
-        padding: 20px;
-        margin-bottom: 25px;
-        box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4), 0 0 30px rgba(72, 187, 120, 0.2);
-        position: relative;
-        animation: greenGlow 0.6s ease-out;
-        text-align: center;
-    }
     .achievement-header {
         background: #48bb78;
         color: white;
@@ -161,10 +150,6 @@ st.markdown("""
         0% { transform: scale(1); }
         50% { transform: scale(1.05); }
         100% { transform: scale(1); }
-    }
-    @keyframes greenGlow {
-        0% { opacity: 0; transform: scale(0.9); }
-        100% { opacity: 1; transform: scale(1); }
     }
     .modal-content {
         background: white;
@@ -363,9 +348,9 @@ elif st.session_state.current_screen == 'tracker':
             is_done = habit['completed']
             progress_percent = (habit['current'] / habit['limit']) * 100
             with st.container():
-                if is_done:
-                    st.markdown('<div class="green-box"><div class="achievement-header">🏆 ACHIEVEMENT UNLOCKED!</div>', unsafe_allow_html=True)
                 st.markdown(f'<div class="habit-card {"done" if is_done else ""}">', unsafe_allow_html=True)
+                if is_done:
+                    st.markdown('<div class="achievement-header">🏆 ACHIEVEMENT UNLOCKED!</div>', unsafe_allow_html=True)
                 # Habit Header
                 col1, col2 = st.columns([3, 1])
                 with col1:
@@ -389,8 +374,6 @@ elif st.session_state.current_screen == 'tracker':
                 if st.button('+ Check-in' if not is_done else 'Goal Reached', disabled=is_done, key=f'checkin_{habit["id"]}'):
                     check_in(habit['id'])
                 st.markdown('</div>', unsafe_allow_html=True)
-                if is_done:
-                    st.markdown('</div>', unsafe_allow_html=True)
 
 # Modal for Add/Edit
 if st.session_state.show_modal:
