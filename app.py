@@ -8,21 +8,87 @@ st.markdown("""
         color: white;
         font-family: 'Inter', sans-serif;
     }
+    
+    /* Global Button Styles */
     .stButton>button {
-        background: black;
-        color: white;
         border: none;
-        padding: 18px 60px;
         border-radius: 50px;
-        font-weight: 700;
-        font-size: 1.1rem;
+        font-weight: 600;
+        font-size: 1rem;
         cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        padding: 12px 24px;
+        min-width: 120px;
     }
-    .stButton>button:hover {
+    
+    /* Primary Buttons (START, Add New Habit, Check-in, Save) */
+    .stButton>button[data-testid*="START"], 
+    .stButton>button[data-testid*="add_habit"], 
+    .stButton>button[data-testid*="checkin"], 
+    .stButton>button[data-testid*="Start Habit"], 
+    .stButton>button[data-testid*="Update Habit"] {
+        background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        color: white;
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+    }
+    .stButton>button[data-testid*="START"]:hover, 
+    .stButton>button[data-testid*="add_habit"]:hover, 
+    .stButton>button[data-testid*="checkin"]:hover, 
+    .stButton>button[data-testid*="Start Habit"]:hover, 
+    .stButton>button[data-testid*="Update Habit"]:hover {
+        background: linear-gradient(135deg, #4338ca, #6d28d9);
         transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 25px rgba(79, 70, 229, 0.5);
     }
+    
+    /* Secondary Buttons (Back, Cancel) */
+    .stButton>button[data-testid*="←"], 
+    .stButton>button[data-testid*="Cancel"] {
+        background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+        color: #374151;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .stButton>button[data-testid*="←"]:hover, 
+    .stButton>button[data-testid*="Cancel"]:hover {
+        background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    
+    /* Edit Button */
+    .stButton>button[data-testid*="edit"] {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    }
+    .stButton>button[data-testid*="edit"]:hover {
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    }
+    
+    /* Delete Button */
+    .stButton>button[data-testid*="delete"] {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+    }
+    .stButton>button[data-testid*="delete"]:hover {
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+    }
+    
+    /* Disabled Buttons */
+    .stButton>button:disabled {
+        background: #d1d5db !important;
+        color: #9ca3af !important;
+        cursor: not-allowed;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+    
     .habit-card {
         background: white;
         color: #2d3436;
