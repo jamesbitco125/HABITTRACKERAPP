@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker Pro</title>
+    <style>
+        :root {
+            --purple-grad: linear-gradient(135deg, #8a4fff 0%, #4f46e5 100%);
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-medium: #475569;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 50px rgba(0,0,0,0.15);
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --color-primary: #4f46e5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+
+        body {
+            background: var(--purple-grad);
+            min-height: 100vh;
+            color: var(--white);
+            transition: background 0.3s ease;
+            padding: 0;
+        }
+
+        .screen {
+            display: none;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            min-height: 100vh;
+        }
+        .screen.active {
+            display: block;
+        }
+
+        #startScreen {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            letter-spacing: -0.5px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+
+        .sub-heading {
+            font-size: 1.1rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .main-btn {
+            background: black;
+            color: white;
+            border: none;
+            padding: 18px 60px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .main-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-top: 10px;
+        }
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .card {
+            background: var(--white);
+            color: var(--text-dark);
+            padding: 50px 30px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 30px;
+        }
+
+        .add-habit-pill {
+            background: var(--white);
+            color: var(--text-dark);
+            border: none;
+            padding: 10px 35px;
+            border-radius: 50px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease;
+        }
+
+        .add-habit-pill:hover {
+            transform: translateY(-1px);
+        }
+
+        .habit-card {
+            background: var(--white);
+            color: var(--text-dark);
+            padding: 25px;
+            border-radius: var(--radius-md);
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .habit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .habit-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+            letter-spacing: -0.01em;
+        }
+
+        .delete-btn, .edit-btn {
+            background: #f1f5f9;
+            border: none;
+            color: #94a3b8;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            opacity: 0.6;
+        }
+
+        .delete-btn:hover {
+            background: #fee2e2;
+            color: #ef4444;
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .edit-btn:hover {
+            background: #e0f2fe;
+            color: #0369a1;
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .habit-card .delete-btn, .habit-card .edit-btn {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .habit-card:hover .delete-btn, .habit-card:hover .edit-btn {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .status-text {
+            color: var(--text-medium);
+            font-size: 0.9rem;
+        }
+
+        .progress-bar-bg {
+            background: #edf2f7;
+            border-radius: 10px;
+            height: 8px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: #4a90e2;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .checkin-btn {
+            padding: 10px 15px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background 0.2s, transform 0.2s;
+            min-width: 80px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+        }
+
+        .checkin-btn:hover:not(:disabled) {
+            background: #4338ca;
+            transform: translateY(-1px);
+        }
+
+        .checkin-btn:disabled {
+            background-color: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        .habit-card.done {
+            background-color: #f0fff4;
+            border: 2px solid #48bb78;
+            opacity: 0.9;
+        }
+
+        .habit-card.done .progress-bar-fill {
+            background: #48bb78;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            color: var(--text-dark);
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 400px;
+            box-shadow: var(--shadow-lg);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: 15px;
+            margin: 12px 0;
+            border: 1px solid #ddd;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .modal-content input:focus,
+        .modal-content select:focus {
+            border-color: var(--color-primary);
+            outline: none;
+        }
+
+        .modal-btns {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .modal-btns button {
+            padding: 12px 25px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .cancel-btn {
+            background: #f1f5f9;
+            border: none;
+            color: var(--text-medium);
+        }
+        .cancel-btn:hover { background: #e2e8f0; }
+
+        .save-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+        }
+        .save-btn:hover { background: #4338ca; }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        .title-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: white;
+            font-family: 'Inter', sans-serif;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+        }
+
+        .back-btn {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="startScreen" class="screen active">
+        <div class="hero">
+            <h1>HABIT TRACKER</h1>
+            <p>Build habits that change your life</p>
+            <button class="main-btn" onclick="navigateTo('tracker')">START</button>
+        </div>
+    </div>
+
+    <div id="trackerScreen" class="screen">
+        <div class="nav-bar">
+            <span class="back-btn" onclick="navigateTo('start')">←</span>
+            <span>My Habits</span>
+            <div class="profile-pic"></div>
+        </div>
+
+        <div class="container">
+            <div class="header-section center-content">
+                <div class="title-group">
+                    <h1>Track Progress</h1>
+                </div>
+                <button class="add-habit-pill" onclick="openModal()">
+                    <span class="plus-icon">+</span> Add New Habit
+                </button>
+            </div>
+
+            <div id="emptyState" class="card empty-card">
+                <div class="empty-icon">🌱</div>
+                <p>Your journey starts here. Add your first habit!</p>
+            </div>
+
+            <div id="habitList" class="habit-grid"></div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h2 id="modalTitle">New Habit</h2>
+                <p>What goal are we crushing today?</p>
+            </div>
+            
+            <div class="input-group">
+                <label for="habitName">Habit Name</label>
+                <input type="text" id="habitName" placeholder="e.g. Read 10 pages">
+            </div>
+
+            <div class="input-group">
+                <label for="habitLimit">Daily Goal (Target Count)</label>
+                <input type="number" id="habitLimit" placeholder="e.g. 8" min="1">
+            </div>
+
+            <div class="modal-btns">
+                <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+                <button class="save-btn" id="saveBtn" onclick="saveHabit()">Start Habit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let habits = JSON.parse(localStorage.getItem('habits')) || [];
+        let editingHabitId = null;
+
+        function navigateTo(screen) {
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(s => s.classList.remove('active'));
+            document.getElementById(screen + 'Screen').classList.add('active');
+        }
+
+        function openModal(habitId = null) {
+            document.getElementById('modal').style.display = 'flex';
+            if (habitId) {
+                editingHabitId = habitId;
+                const habit = habits.find(h => h.id === habitId);
+                document.getElementById('habitName').value = habit.name;
+                document.getElementById('habitLimit').value = habit.limit;
+                document.getElementById('modalTitle').textContent = 'Edit Habit';
+                document.getElementById('saveBtn').textContent = 'Update Habit';
+            } else {
+                editingHabitId = null;
+                document.getElementById('modalTitle').textContent = 'New Habit';
+                document.getElementById('saveBtn').textContent = 'Start Habit';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('habitName').value = '';
+            document.getElementById('habitLimit').value = '';
+            editingHabitId = null;
+        }
+
+        function saveHabit() {
+            const name = document.getElementById('habitName').value;
+            const limitInput = document.getElementById('habitLimit').value;
+            const limit = parseInt(limitInput);
+
+            if (name && limit > 0) {
+                if (editingHabitId) {
+                    // Update existing habit
+                    const habit = habits.find(h => h.id === editingHabitId);
+                    habit.name = name;
+                    habit.limit = limit;
+                    // Reset progress if limit changed
+                    if (habit.current > limit) {
+                        habit.current = limit;
+                        habit.completed = true;
+                    } else if (habit.current === limit) {
+                        habit.completed = true;
+                    } else {
+                        habit.completed = false;
+                    }
+                } else {
+                    // Add new habit
+                    const newHabit = {
+                        id: Date.now(),
+                        name: name,
+                        limit: limit,
+                        current: 0,
+                        completed: false
+                    };
+                    habits.push(newHabit);
+                }
+                updateStorage();
+                renderHabits();
+                closeModal();
+            } else {
+                alert("Please enter a valid name and goal number!");
+            }
+        }
+
+        function checkIn(id) {
+            const habit = habits.find(h => h.id === id);
+            
+            if (habit && habit.current < habit.limit) {
+                habit.current++;
+                
+                if (habit.current === habit.limit) {
+                    habit.completed = true;
+                }
+                
+                updateStorage();
+                renderHabits();
+            }
+        }
+
+        function deleteHabit(id) {
+            habits = habits.filter(h => h.id !== id);
+            updateStorage();
+            renderHabits();
+        }
+
+        function updateStorage() {
+            localStorage.setItem('habits', JSON.stringify(habits));
+        }
+
+        function renderHabits() {
+            const habitList = document.getElementById('habitList');
+            const emptyState = document.getElementById('emptyState');
+            
+            habitList.innerHTML = '';
+            
+            if (habits.length === 0) {
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
+            }
+
+            habits.forEach(habit => {
+                const isDone = habit.completed;
+                const progressPercent = (habit.current / habit.limit) * 100;
+
+                habitList.innerHTML += `
+                    <div class="card habit-card ${isDone ? 'done' : ''}">
+                        <div class="habit-header">
+                            <h3>${habit.name}</h3>
+                            <div class="action-buttons">
+                                <button class="edit-btn" onclick="openModal(${habit.id})">✏️</button>
+                                <button class="delete-btn" onclick="deleteHabit(${habit.id})">×</button>
+                            </div>
+                        </div>
+                        
+                        <p class="status-text">
+                            ${isDone ? '<strong>✅ Habit Done!</strong>' : `Progress: ${habit.current} / ${habit.limit}`}
+                        </p>
+                        
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width: ${progressPercent}%"></div>
+                        </div>
+
+                        <button 
+                            onclick="checkIn(${habit.id})" 
+                            ${isDone ? 'disabled' : ''} 
+                            class="checkin-btn">
+                            ${isDone ? 'Goal Reached' : '+ Check-in'}
+                        </button>
+                    </div>
+                `;
+            });
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        renderHabits();
+    </script>
+</body>
+</html>
