@@ -41,6 +41,15 @@ st.markdown("""
         box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
     }
     
+    /* Make START button bigger and centered */
+    .stButton>button[data-testid*="START"] {
+        font-size: 1.2rem;
+        padding: 15px 40px;
+        height: 50px;
+        display: block;
+        margin: 0 auto;
+    }
+    
     /* Secondary Buttons (Back, Cancel) */
     .stButton>button[data-testid*="←"], 
     .stButton>button[data-testid*="Cancel"] {
